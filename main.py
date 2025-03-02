@@ -1,14 +1,23 @@
+#!/home/biscuit/anaconda3/bin/python
+
 import genanki
 import wanikani_api.client as client
 import random
 import time
+
+def sepStr(meanings):
+    ret = ""
+    for m in meanings:
+        ret += m.meaning + ',\n'
+    ret = ret.rstrip(',\n')
+    return ret
 
 wk_api = client.Client("77606c85-cacc-4a2d-8774-5d8462d56710")
 assignments = wk_api.assignments(subject_types = "vocabulary", 
                                  started = True, burned = False, fetch_all = True)
 
 my_model = genanki.Model(
-    1252164487,
+    1242844797,
     'WaniKani',
     fields = [
         {'name': 'Word'},
@@ -24,7 +33,7 @@ my_model = genanki.Model(
 )
 
 my_deck = genanki.Deck(
-    1938304362,
+    1582307016,
     'WaniKani Reverse'
 )
 print(len(assignments))
@@ -38,7 +47,7 @@ for assignment in assignments:
         time.sleep(62)
     new_note = genanki.Note(
         model = my_model,
-        fields = [assignment.subject.meanings[0].meaning, assignment.subject.characters]
+        fields = [sepStr(assignment.subject.meanings), assignment.subject.characters]
     )
     my_deck.add_note(new_note)
 
